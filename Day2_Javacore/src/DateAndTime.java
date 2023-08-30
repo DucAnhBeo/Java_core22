@@ -16,15 +16,15 @@ public class DateAndTime {
 
 
 
-        String date1 = "20-07-2023";
-        String date2 = "27-08-2023";
+       // String date1 = "20-07-2023";
+       // String date2 = "27-08-2023";
 
-        LocalDate date1Object = LocalDate.parse(date1);
-        LocalDate date2Object = LocalDate.parse(date2);
+       // LocalDate date1Object = LocalDate.parse(date1);
+        //LocalDate date2Object = LocalDate.parse(date2);
 
-        long numberOfDaysDiff = date2Object.getDayOfYear() - date1Object.getDayOfYear();
+        //long numberOfDaysDiff = date2Object.getDayOfYear() - date1Object.getDayOfYear();
 
-        System.out.println("Số ngày cách biệt giữa 2 ngày là: " + numberOfDaysDiff);
+        //System.out.println("Số ngày cách biệt giữa 2 ngày là: " + numberOfDaysDiff);
 
     }
 }
