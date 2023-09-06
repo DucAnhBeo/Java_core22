@@ -9,18 +9,18 @@ public class Bai2 {
 
         int i=1;
         int dem=0;
-        while(n>=i)
-        {
+
             for( i=1;i<=n;i++)
             {
                 if(n%i==0)
                 {
                     dem++;
-                    System.out.println(i);
-                    n=n/i;
+                    System.out.print(i);
+
                 }
             }
-        }
+
+        System.out.println();
         System.out.println(dem);
     }
 }
