@@ -1,52 +1,50 @@
 import java.util.Scanner;
 
 public class Ex1 {
-    public static boolean SNT(int n) {
-        if (n < 2) {
-            return false;
+    public static long pow(int a, int n) {
+        if (n == 0) {
+            return 1;
         }
-        for (int i = 2; i <= Math.sqrt(n); i++) {
-            if (n % i == 0) {
+        return pow(a, n - 1) * a;
+    }
+
+
+    public int fib(int n) {
+        if (n < 2) return 1;
+        return fib(n - 1) + fib(n - 2);
+
+    }
+
+    public static int sum(int n) {
+        int s = 0;
+        for (int i = 0; i < n; i++) {
+            s += i;
+        }
+        return s;
+    }
+
+    public static boolean chiaHet(int n) {
+        for (int i = 0; i < n; i++) {
+            if (i % 7 == 0) {
+                return true;
+            } else {
                 return false;
             }
         }
-        return true;
+       return false;
     }
 
-    public static int fib(int n) {
-        if (n <= 1)
-            return n;
-        return fib(n - 1) + fib(n - 2);
-    }
 
-    public static boolean check_scp(int n) {
-        double a = Math.sqrt(n);
-        if (a * a == n)
-            return true;
-        else
-            return false;
-    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-    public static int scp(int n, int m) {
-        int dem = 0;
-        if (m < n) {
-            for (int i = m; i <= n; i++) {
-                if (check_scp(i)) {
-                    return i;
-                    dem++;
-                }
-            }
-            return dem;
-        }
+        int n;
+        n = sc.nextInt();
 
-        public static int STN ( int n){
-            int m;
-
-
+        if (chiaHet(n)){
+            System.out.println("1");
         }
 
 
-        public static void main (String[]args){
-
-        }
     }
+}

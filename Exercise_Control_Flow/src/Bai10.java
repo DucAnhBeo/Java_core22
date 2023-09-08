@@ -6,9 +6,9 @@ public class Bai10 {
         int h;
         h= sc.nextInt();
 
-        for(int i=0;i<h;i++)
+        for(int i=1;i<=h;i++)
         {
-            for (int j=0;j<=i;j++)
+            for (int j=1;j<=h-1;j++)
             {
                 if(i==h-1 || j==0 || j==i)
                 {
