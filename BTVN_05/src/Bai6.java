@@ -23,6 +23,14 @@ public class Bai6 {
             }
             return true;
         }
+        if (a.length % 2 == 0) {
+            while (a[i] == a[j]) {
+                i++;
+                j--;
+                break;
+            }
+            return true;
+        }
         return false;
     }
 
