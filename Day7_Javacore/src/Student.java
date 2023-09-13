@@ -9,4 +9,15 @@ public class Student {
     public String className;
     public float gpa;
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", birthday=" + birthday +
+                ", address='" + address + '\'' +
+                ", className='" + className + '\'' +
+                ", gpa=" + gpa +
+                '}';
+    }
 }
