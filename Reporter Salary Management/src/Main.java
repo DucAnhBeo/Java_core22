@@ -1,5 +1,7 @@
 import entity.BaiViet;
 import entity.Reporter;
+import entity.ReportsManagementDetail;
+import entity.ReportsManagemnet;
 
 import java.util.Scanner;
 
@@ -7,6 +9,7 @@ public class Main {
 
     private static Reporter[] reporters = new Reporter[100];
     private static BaiViet[] baiViets = new BaiViet[100];
+    private static ReportsManagemnet[] reportsManagemnets = new ReportsManagemnet[100];
 
     public static void main(String[] args) {
         while (true) {
@@ -27,8 +30,10 @@ public class Main {
                     showBaiViet();
                     break;
                 case 5:
+                    writeReports();
                     break;
                 case 6:
+                    showReports();
                     break;
                 case 7:
                     break;
@@ -40,6 +45,111 @@ public class Main {
             }
         }
 
+    }
+
+    private static void showReports() {
+        for (int i = 0; i < reportsManagemnets.length; i++) {
+            if (reportsManagemnets[i] != null) {
+                System.out.println(reportsManagemnets[i]);
+            }
+        }
+    }
+
+    private static void writeReports() {
+        System.out.println("Co bao nhieu phong vien viet bai");
+        int reporterNumber = new Scanner(System.in).nextInt();
+        for (int i = 0; i < reporterNumber; i++) {
+            System.out.println("Nhap thong tin cho phong vien thu "+ (i+1));
+            Reporter reporter = inputReporterForWritting();
+
+            ReportsManagementDetail [] details = inputReportsManagementDetail();
+
+            ReportsManagemnet reportsManagemnet = new ReportsManagemnet(reporter, details);
+            saveReporterWritting(reportsManagemnet);
+        }
+    }
+
+    private static void saveReporterWritting(ReportsManagemnet reportsManagemnet) {
+        for (int j = 0; j < reportsManagemnets.length; j++) {
+            if (reportsManagemnets[j] == null) {
+                reportsManagemnets[j] = reportsManagemnet;
+                break;
+            }
+        }
+    }
+
+    private static ReportsManagementDetail[] inputReportsManagementDetail() {
+        System.out.println("Phong vien viet bao nhieu kieu bai viet");
+        int baiVietNumber;
+        do {
+            baiVietNumber = new Scanner(System.in).nextInt();
+            if (baiVietNumber > 0 && baiVietNumber < 6) {
+                break;
+            }
+            System.out.println("So luong dau sach la mot so duong hon 6, vui long nhap lai");
+        } while (true);
+        ReportsManagementDetail[] details = new ReportsManagementDetail[baiVietNumber];
+        int count = 0;
+        for (int j = 0; j < baiVietNumber; j++) {
+            System.out.println("Nhap thong tin cho kieu bai viet" + (j + 1));
+            System.out.println("Nhap id cua kieu bai viet");
+
+            int baiVietId;
+            BaiViet baiViet = null;
+            do {
+                baiVietId = new Scanner(System.in).nextInt();
+
+                for (int k = 0; k < baiViets.length; k++) {
+                    if (baiViets[k] != null && baiViets[k].getId() == baiVietId) {
+                        baiViet = baiViets[k];
+                        break;
+                    }
+                }
+
+                if (baiViet != null) {
+                    break;
+                }
+                System.out.println("Khong co kieu bai viet mang ma " + baiVietId + "vui long nhap lai");
+            } while (true);
+
+            System.out.println("Phong vien viet kieu bai viet" + baiViet.getNameBai() + "bao nhieu lan");
+
+            int quantity ;
+
+            do {
+                quantity = new Scanner(System.in).nextInt();
+                if (quantity > 0 && quantity < 3) {
+                    break;
+                }
+                System.out.println("So luong cuon sach muon cua moi dau sach khong vuot qua 3, vui long nhap lai");
+            } while (true);
+            ReportsManagementDetail detail = new ReportsManagementDetail(baiViet, quantity);
+            details[count] = detail;
+            count++;
+        }
+        return details;
+    }
+
+
+    private static Reporter inputReporterForWritting() {
+        System.out.println("Nhap ma phong vien");
+        Reporter reporter = null;
+        int reporterID;
+        do {
+            reporterID = new Scanner(System.in).nextInt();
+
+            for (int j = 0; j < reporters.length; j++) {
+                if (reporters[j] != null && reporters[j].getId() == reporterID) {
+                    reporter = reporters[j];
+                    break;
+                }
+            }
+            if (reporter!= null) {
+                break;
+            }
+            System.out.println("Khong ton tai ban doc mang ma" + reporterID + "vui long nhap lai");
+        } while (true);
+        return reporter;
     }
 
     private static void showBaiViet() {
@@ -119,9 +229,10 @@ public class Main {
         System.out.println("3. Nhập danh sach kieu bai viet");
         System.out.println("4. In danh sách kieu bai viet");
         System.out.println("5. Lập bảng tinh cong");
-        System.out.println("6. Sap xep danh sách theo ho ten phong vien");
-        System.out.println("7. Sắp xếp danh sách theo so luong bai viet");
-        System.out.println("8. lap bang ke thu nhap cua moi phong vien");
-        System.out.println("9. Thoát");
+        System.out.println("6. In danh sach bang tinh cong");
+        System.out.println("7. Sắp xếp danh sách theo ten");
+        System.out.println("8. Sắp xếp danh sách theo so luong bai viet");
+        System.out.println("9. Lap bang thong ke thu nhap");
+        System.out.println("10. Thoát");
     }
 }
