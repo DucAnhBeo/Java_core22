@@ -5,18 +5,20 @@ import entity.EmployeeManagement;
 import entity.EmployeeManagementDetail;
 import entity.Factory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeManagementLogic {
 
-    private EmployeeLogic employeeLogic;
-    private FactoryLogic factoryLogic;
-    private EmployeeManagement[] employeeManagements = new EmployeeManagement[1000];
+    private final EmployeeLogic employeeLogic;
+    private final FactoryLogic factoryLogic;
+    //    private final EmployeeManagement[] employeeManagements = new EmployeeManagement[1000];
+    private final List<EmployeeManagement> employeeManagements = new ArrayList<>();
 
     public EmployeeManagementLogic(EmployeeLogic employeeLogic, FactoryLogic factoryLogic) {
         this.employeeLogic = employeeLogic;
         this.factoryLogic = factoryLogic;
-        this.employeeManagements = employeeManagements;
     }
 
     public void inputChamCong() {
@@ -39,12 +41,32 @@ public class EmployeeManagementLogic {
             System.out.print("Công nhân " + (i + 1) + " muốn lập bảng tính công là công nhân nào, nhập ID công nhân: ");
             Employee employee = inputEmployee();
 
-            EmployeeManagementDetail[] details = inputEmployeeManagement();
+            List<EmployeeManagementDetail> details = inputEmployeeManagement();
+
+//            int totalOfEmployee =0 ;
+//            for (int j= 0; j< details.length; j++){
+//                totalOfEmployee += details[j].getQuantity();
+//            }
+//
 
             EmployeeManagement employeeManagement = new EmployeeManagement(employee, details);
             saveEmployeeManagement(employeeManagement);
         }
     }
+
+    private void saveEmployeeManagement(EmployeeManagement employeeManagement) {
+        if (employeeManagement == null) {
+            return;
+        }
+        employeeManagements.add(employeeManagement);
+//        for (int i = 0; i < employeeManagements.length; i++) {
+////            if (employeeManagements[i] == null) {
+////                employeeManagements[i] = employeeManagement;
+////                break;
+////            }
+////        }
+    }
+
 
     private Employee inputEmployee() {
         int employeeId;
@@ -61,7 +83,7 @@ public class EmployeeManagementLogic {
         return employee;
     }
 
-    private EmployeeManagementDetail[] inputEmployeeManagement() {
+    private List<EmployeeManagementDetail> inputEmployeeManagement() {
         System.out.println("Nhập số xưởng sản xuất mà công nhân tham gia");
         int factoryNum;
         do {
@@ -73,8 +95,8 @@ public class EmployeeManagementLogic {
             }
         } while (true);
 
-        EmployeeManagementDetail[] details = new EmployeeManagementDetail[factoryNum];
-        int count = 0;
+        List<EmployeeManagementDetail> details = new ArrayList<>();
+
         for (int j = 0; j < factoryNum; j++) {
             System.out.println("Nhập thông tin cho xưởng sản xuất");
             System.out.println("Nhập ID của xưởng sản xất");
@@ -111,27 +133,87 @@ public class EmployeeManagementLogic {
             } while (true);
 
             EmployeeManagementDetail detail = new EmployeeManagementDetail(factory, workday);
-            details[count] = detail;
-            count++;
-        }
-        return details;
-    }
+            details.add(detail);
 
-    private void saveEmployeeManagement(EmployeeManagement employeeManagement) {
-        for (int i = 0; i < employeeManagements.length; i++) {
-            if (employeeManagements[i] == null) {
-                employeeManagements[i] = employeeManagement;
-                break;
+            return details;
+        }
+
+
+
+
+        public void sortByFactoryNumber () {
+            if (!checkData()) {
+                System.out.println("Chưa có thông tin công nhân hoặc xưởng sản xuất, vui lòng nhập danh sách công nhân và xưởng sản xuất trướcc");
+                return;
+            }
+            for (int i = 0; i < employeeManagements.size() - 1; i++) {
+                if (employeeManagements.get(i) == null) {
+                    continue;
+                }
+                EmployeeManagement temp = employeeManagements.get(i);
+                employeeManagements.get(i) = employeeManagements.get(i + 1);
+                employeeManagements.get(i + 1) = temp;
+            }
+            showChamCong();
+        }
+
+        public void Salary () {
+            if (!checkData()) {
+                System.out.println("Chưa có thông tin công nhân hoặc xưởng sản xuất, vui lòng nhập danh sách công nhân và xưởng sản xuất trước");
+                return;
+            }
+            for (EmployeeManagement employeeManagement : employeeManagements) {
+                if (employeeManagement == null) {
+
+                    continue;
+                }
+                double payment = 0;
+                EmployeeManagementDetail[] list1 = employeeManagement.getEmployeeManagementDetails();
+                for (int j = 0; j < list1.length; j++) {
+                    payment += list1[j].getFactory().getCoefficient() * 450000 * list1[j].getEmployee().getLevel() * ((double) list1[j].getWorkday() / 22);
+                }
+                System.out.println("Tổng lương công nhân  " + employeeManagement.getEmployee().getName() + " là " + payment);
             }
         }
+
+        private boolean checkData () {
+            boolean employeeData = false;
+            for (int i = 0; i < employeeLogic.getEmployees().size(); i++) {
+                if (employeeLogic.getEmployees().get(i) != null) {
+                    employeeData = true;
+                    break;
+                }
+            }
+
+            boolean factoryData = false;
+            for (int i = 0; i < factoryLogic.getFactories().length; i++) {
+                if (factoryLogic.getFactories()[i] != null) {
+                    factoryData = true;
+                    break;
+                }
+            }
+
+            return employeeData && factoryData;
+        }
+
+
+//        private boolean isEmptyEmployeeStatistic () {
+//            for (int i = 0; i < employeeManagements.length; i++) {
+//                if (employeeManagements[i] != null){
+//                    return false;
+//                }
+//            }
+//            return true;
+//        }
+
     }
 
-    public void showChamCong() {
-        for (int i = 0; i < employeeManagements.length; i++) {
-            if (employeeManagements[i] != null) {
-                System.out.println(employeeManagements[i]);
-            }
+    void showChamCong() {
+        if (employeeManagements.isEmpty()) {
+            System.out.println("Khong co thong tin bang tinh cong");
+            return;
         }
+        System.out.println(employeeManagements);
     }
 
     public void sortByEmployeeName() {
@@ -139,76 +221,22 @@ public class EmployeeManagementLogic {
             System.out.println("Chưa có thông tin công nhân hoặc xưởng sản xuất, vui lòng nhập danh sách công nhân và xưởng sản xuất trước");
             return;
         }
-        for (int i = 0; i < employeeManagements.length - 1; i++) {
-            if (employeeManagements[i] == null) {
+        for (int i = 0; i < employeeManagements.size() - 1; i++) {
+            if (employeeManagements.get(i) == null) {
                 continue;
             }
-            for (int j = i + 1; j < employeeManagements.length; j++) {
-                if (employeeManagements[j] == null) {
+            for (int j = i + 1; j < employeeManagements.size(); j++) {
+                if (employeeManagements.get(j) == null) {
                     continue;
                 }
-                if (employeeManagements[i].getEmployee().getName().trim().compareToIgnoreCase(employeeManagements[j].getEmployee().getName().trim()) > 0) {
-                    EmployeeManagement temp = employeeManagements[i];
-                    employeeManagements[i] = employeeManagements[j];
-                    employeeManagements[j] = temp;
+                if (employeeManagements.get(i).getEmployee().getName().trim().compareToIgnoreCase(employeeManagements.get(j).getEmployee().getName().trim()) > 0) {
+                    EmployeeManagement temp = employeeManagements.get(i);
+                    employeeManagements.get(i) = employeeManagements.get(j);
+                    employeeManagements.get(j) = temp;
                 }
             }
         }
         showChamCong();
     }
-
-    public void sortByFactoryNumber() {
-        if (!checkData()) {
-            System.out.println("Chưa có thông tin công nhân hoặc xưởng sản xuất, vui lòng nhập danh sách công nhân và xưởng sản xuất trướcc");
-            return;
-        }
-        for (int i = 0; i < employeeManagements.length - 1; i++) {
-            if (employeeManagements[i] == null) {
-                continue;
-            }
-            EmployeeManagement temp = employeeManagements[i];
-            employeeManagements[i] = employeeManagements[i + 1];
-            employeeManagements[i + 1] = temp;
-        }
-        showChamCong();
-    }
-
-    public void Salary() {
-        if (!checkData()) {
-            System.out.println("Chưa có thông tin công nhân hoặc xưởng sản xuất, vui lòng nhập danh sách công nhân và xưởng sản xuất trước");
-            return;
-        }
-        for (EmployeeManagement employeeManagement : employeeManagements) {
-            if (employeeManagement == null) {
-
-                continue;
-            }
-            double payment = 0;
-            EmployeeManagementDetail[] list1 = employeeManagement.getEmployeeManagementDetails();
-            for (int j = 0; j < list1.length; j++) {
-                payment += list1[j].getFactory().getCoefficient()*450000* list1[j].getEmployee().getLevel()*((double) list1[j].getWorkday() /22);
-            }
-            System.out.println("Tổng lương công nhân  " + employeeManagement.getEmployee().getName() + " là " + payment);
-        }
-    }
-
-    private boolean checkData() {
-        boolean employeeData = false;
-        for (int i = 0; i < employeeLogic.getEmployees().length; i++) {
-            if (employeeLogic.getEmployees()[i] != null) {
-                employeeData = true;
-                break;
-            }
-        }
-
-        boolean factoryData = false;
-        for (int i = 0; i < factoryLogic.getFactories().length; i++) {
-            if (factoryLogic.getFactories()[i] != null) {
-                factoryData = true;
-                break;
-            }
-        }
-
-        return employeeData && factoryData;
-    }
 }
+

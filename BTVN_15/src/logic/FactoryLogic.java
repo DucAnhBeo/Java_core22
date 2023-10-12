@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class FactoryLogic {
 
-    private Factory[] factories = new Factory[1000];
+    private final Factory[] factories = new Factory[1000];
 
     private int totalFactory;
 
