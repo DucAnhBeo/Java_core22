@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class EmployeeManagement {
 
@@ -8,7 +9,7 @@ public class EmployeeManagement {
     private EmployeeManagementDetail[] employeeManagementDetails;
     private int totalWorkDay;
 
-    public EmployeeManagement(Employee employee, EmployeeManagementDetail[] employeeManagementDetails) {
+    public EmployeeManagement(Employee employee, List<EmployeeManagementDetail> employeeManagementDetails) {
         this.employee = employee;
         this.employeeManagementDetails = employeeManagementDetails;
 

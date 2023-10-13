@@ -2,14 +2,17 @@ package logic;
 
 import entity.Employee;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeLogic {
 
-    private Employee[] employees = new Employee[1000];
+    //    private final Employee[] employees = new Employee[1000];
+    private final List<Employee> employees = new ArrayList<>();
     private int totalEmployee;
 
-    public Employee[] getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
@@ -31,30 +34,43 @@ public class EmployeeLogic {
     }
 
     private void saveEmployee(Employee employee) {
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) {
-                employees[i] = employee;
-                break;
-            }
+        if(employee == null) {
+            return;
         }
+        employees.add(employee);
+//        for (int i = 0; i < employees.length; i++) {
+//            if (employees[i] == null) {
+//                employees[i] = employee;
+//                break;
+//            }
+//        }
     }
 
     public void showEmployees() {
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                System.out.println(employees[i]);
-            }
-        }
+        System.out.println(employees);
+//        for (int i = 0; i < employees.length; i++) {
+//            if (employees[i] != null) {
+//                System.out.println(employees[i]);
+//            }
+//        }
     }
+
+    public boolean isEmptyEmployee() {
+        return employees.isEmpty();
+    }
+
 
     public Employee searchById(int id) {
         Employee result = null;
-        for (int j = 0; j < employees.length; j++) {
-            if (employees[j] != null && employees[j].getId() == id) {
-                result = employees[j];
-                break;
+        for (int j = 0; j < employees.size(); j++) {
+            if (employees.get(j).getId() == id) {
+                return employees.get(j);
             }
+//            if (employees[j] != null && employees[j].getId() == id) {
+//                result = employees[j];
+//                break;
+//            }
         }
-        return result;
+        return null;
     }
 }
