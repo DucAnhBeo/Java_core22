@@ -7,6 +7,7 @@ public class MenuManagement {
     private final AdminLogic adminLogic = new AdminLogic();
     private final BankerLogic bankerLogic = new BankerLogic();
     private final CustomerLogic customerLogic = new CustomerLogic();
+
     public void menu() {
         while (true) {
             printMenu();
@@ -65,7 +66,7 @@ public class MenuManagement {
         System.out.print("Xin mời nhập lựa chọn: ");
         do {
             choice = new Scanner(System.in).nextInt();
-            if (choice == 1 || choice == 2 ) {
+            if (choice == 1 || choice == 2) {
                 break;
             }
             System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại: ");
@@ -117,20 +118,47 @@ public class MenuManagement {
                         break;
                     case 2:
                         customerLogic.customerLogIn();
-                       break;
+                        break;
                     case 3:
                         return;
 
                 }
                 break;
             case 2:
-                bankerLogic.bankerFunction();
+                System.out.println("Mời bạn tạo tài khoản mới hoặc đăng nhập vào tài khoản sẵn có ");
+                System.out.println("1. Đăng ký");
+                System.out.println("2. Đăng nhập");
+                System.out.println("3. Thoát");
+                int tmp = 0;
+                System.out.print("Xin mời nhập lựa chọn: ");
+                do {
+                    tmp = new Scanner(System.in).nextInt();
+                    if (tmp >= 1 && tmp <= 3) {
+                        break;
+                    }
+                    System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại: ");
+                } while (true);
+
+                switch (tmp) {
+                    case 1:
+                        bankerLogic.bankerNewIn();
+                        break;
+                    case 2:
+                        bankerLogic.bankerLogIn();
+                        break;
+                    case 3:
+                        return;
+
+                }
                 break;
             case 3:
                 adminLogic.adminFunction();
                 return;
+
         }
     }
+
+
 
     private int chooseFunction() {
         int choice = 0;

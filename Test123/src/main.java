@@ -7,7 +7,7 @@ public class main {
 
         try {
             // create new file
-            f = new File("banker.dat");
+            f = new File("customer.dat");
 
             // tries to create new file in the system
             bool = f.createNewFile();

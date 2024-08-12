@@ -1,10 +1,12 @@
 package entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Scanner;
 
 public class Banker extends Person implements Serializable {
-    private static final long serialVersionUID = -6500665823330706018L;
+    @Serial
+    private static final long serialVersionUID = 5162710183389028792L;
 
     private String username;
     private String password;

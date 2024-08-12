@@ -1,38 +1,33 @@
 package logic;
 
 import entity.Banker;
-import entity.Customer;
+import utilities.FileUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BankerLogic {
+public class BankerLogic  {
 
-    private final List<Banker> bankerList = new ArrayList<>();
-    private final Banker banker = new Banker();
-    private final CustomerLogic customerLogic = new CustomerLogic();
+    private List<Banker> bankerList = new ArrayList<>() ;
     public static final String BANK_DATA_FILE = "bank.dat";
-
-    public BankerLogic() {
-    }
 
     public List<Banker> getBankerList() {
         return bankerList;
     }
 
-    public void bankerFunction() {
-        banker.inputInfo();
-        chooseBankerFunction();
+    public void setBankerList(List<Banker> bankerList) {
+        this.bankerList = new ArrayList<>(bankerList);
     }
 
     private void chooseBankerFunction() {
-        while(true) {
+        while (true) {
             showMenu();
             int choice = chooseFunction();
 
-            switch (choice){
+            switch (choice) {
                 case 1:
+                    CustomerLogic customerLogic = new CustomerLogic();
                     customerLogic.showCustomer();
                     break;
                 case 2:
@@ -65,16 +60,38 @@ public class BankerLogic {
         System.out.println("3. Thoát");
     }
 
-    public void showBanker(){
-        if(this.bankerList.isEmpty()){
+    public void showBanker() {
+        if (this.bankerList.isEmpty()) {
             System.out.println("------------------------------------");
             System.out.println("Danh sách nhân viên ngân hàng rỗng");
             System.out.println("------------------------------------");
             return;
         }
         System.out.printf("%-50% | %-50% | \n", "Tên đăng nhập", "Mật khẩu");
-        for (Banker banker : this.bankerList){
+        for (Banker banker : this.bankerList) {
             banker.displayInfo();
+        }
+    }
+
+    public void bankerNewIn() {
+        Banker banker = new Banker();
+        banker.inputInfo();
+        saveBanker(banker);
+    }
+
+    public void saveBanker(Banker banker) {
+        this.bankerList.add(banker);
+        FileUtil.getInstance().writeDataToFile(this.bankerList, BANK_DATA_FILE);
+    }
+
+    public void bankerLogIn() {
+        Banker newBanker = new Banker();
+        newBanker.inputInfo();
+        if(FileUtil.getInstance().readDataFromFile(BANK_DATA_FILE) == newBanker.getUsername() && FileUtil.getInstance().readDataFromFile( BANK_DATA_FILE) == newBanker.getPassword()){
+            chooseBankerFunction();
+        }
+        else {
+            bankerLogIn();
         }
     }
 }

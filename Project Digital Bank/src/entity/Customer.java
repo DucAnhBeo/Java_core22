@@ -1,15 +1,25 @@
 package entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Scanner;
 
 public class Customer extends Person implements Serializable {
-    private static final long serialVersionUID = -6500665823330706018L;
+    @Serial
+    private static final long serialVersionUID = 5162710183389028792L;
 
-
+    private double money=0;
     private long STK;
     private String username;
     private String password;
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
 
     public long getSTK() {
         return STK;
@@ -38,7 +48,8 @@ public class Customer extends Person implements Serializable {
     @Override
     public String toString() {
         return "Customer{" +
-                "STK=" + STK +
+                "money=" + money +
+                ", STK=" + STK +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

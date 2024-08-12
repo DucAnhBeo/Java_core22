@@ -17,7 +17,7 @@ public class FileUtil<T> implements DataReadable, DataWritable<T> {
         return fileUtil;
     }
 
-    @Override
+        @Override
     public Object readDataFromFile(String fileName) {
         String filePath = String.join(File.separator, System.getProperty("user.dir"), "data", fileName);
         if (StringUtil.isNullOrEmpty(filePath)) {
@@ -33,6 +33,7 @@ public class FileUtil<T> implements DataReadable, DataWritable<T> {
         return null;
     }
 
+
     @Override
     public void writeDataToFile(List<T> data, String fileName) {
         String filePath = String.join(File.separator, System.getProperty("user.dir"), "data", fileName);
@@ -46,4 +47,6 @@ public class FileUtil<T> implements DataReadable, DataWritable<T> {
             e.printStackTrace();
         }
     }
+
+
 }

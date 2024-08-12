@@ -10,10 +10,8 @@ import java.util.Scanner;
 public class AdminLogic {
 
     private Admin admin = new Admin();
-    private final BankerLogic bankerLogic = new BankerLogic();
-    private final CustomerLogic customerLogic = new CustomerLogic();
-
-    public static final String ADMIN_DATA_FILE = "admin.dat";
+    private BankerLogic bankerLogic = new BankerLogic();
+    private CustomerLogic customerLogic = new CustomerLogic();
 
     public Admin getAdmin() {
         return admin;
